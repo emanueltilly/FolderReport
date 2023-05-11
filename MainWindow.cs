@@ -19,10 +19,16 @@ namespace FolderReport
             toolStripProgressBar1.Visible = true;
             timer2.Enabled = true;
 
+            //Create File
+            progressLabel.Text = "Creating report file...";
+
+
+
+            //Scan
             progressLabel.Text = "Scanning directory...";
 
             //Generate CSV Header row
-            AppendLine(outputFilePath, "fullPath;fileExtention;fileName;fileDirectory;fileSizeMegabytes;fileCreated;fileModified");
+            AppendLine(outputFilePath, "fullPath;fileName;fileExtention;fileDirectory;fileSizeMegabytes;fileCreated;fileModified");
 
             await Task.Run(() => scanner.GetFiles(folderPath, outputFilePath));
             await Task.Delay(500);
@@ -88,23 +94,39 @@ namespace FolderReport
             scanner = new FolderScanner.Scanner();
         }
 
-        public static void CreateEmpty(string filepath)
+        public static bool CreateEmpty(string filepath, bool confirmOverwrite = true)
         {
             //Delete if existing
             if (File.Exists(filepath))
             {
-                Delete(filepath);
+                if (confirmOverwrite)
+                {
+                    var confirmResult = MessageBox.Show("Report file already exists. Confirm overwrite?",
+                                     "Confirm overwrite",
+                                     MessageBoxButtons.YesNo);
+                    if (confirmResult == DialogResult.Yes)
+                    {
+                        Delete(filepath);
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+                
 
             }
             //Create new empty file
             try
             {
                 File.Create(filepath).Dispose();
+                return true;
                 //Console.WriteLine("Creating new empty file: " + filepath);
             }
-            catch { MessageBox.Show("Failed to create output file: " + filepath); return; }
+            catch { MessageBox.Show("Failed to create output file: " + filepath); return false; }
 
         }
+
 
         public static void Delete(string filepath)
         {
