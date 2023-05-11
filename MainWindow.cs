@@ -113,7 +113,7 @@ namespace FolderReport
                         return false;
                     }
                 }
-                
+
 
             }
             //Create new empty file

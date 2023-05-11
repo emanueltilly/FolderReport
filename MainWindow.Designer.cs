@@ -161,7 +161,7 @@
             progressLabel.ForeColor = Color.Black;
             progressLabel.Name = "progressLabel";
             progressLabel.Size = new Size(190, 17);
-            progressLabel.Text = "Version 0.1.0.3 - Builddate 230403.3";
+            progressLabel.Text = "Version 0.1.0.4 - Builddate 230511.1";
             // 
             // timer2
             // 
