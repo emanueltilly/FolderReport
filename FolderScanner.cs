@@ -83,7 +83,20 @@ namespace FolderScanner
 
         public string GetCsvRow()
         {
-            return string.Format("{0};{1};{2};{3};{4};{5};{6}", fullPath,fileName,fileExtention,fileDirectory,fileSizeMegabytes,fileCreated,fileModified);
+
+            return string.Format("{0};{1};{2};{3};{4};{5};{6}",
+                   SanitizeString(fullPath),
+                   SanitizeString(fileName),
+                   SanitizeString(fileExtention),
+                   SanitizeString(fileDirectory),
+                   fileSizeMegabytes,
+                   SanitizeString(fileCreated),
+                   SanitizeString(fileModified));
+        }
+
+        private string SanitizeString(string input)
+        {
+            return input.Replace(";", ":");
         }
 
     }
